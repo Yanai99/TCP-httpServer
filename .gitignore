@@ -130,3 +130,4 @@ x64/
 *.pyo
 *.swp
 *.DS_Store
+*.vcxproj
