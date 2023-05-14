@@ -52,7 +52,7 @@ void main()
 	// The WSACleanup function destructs the use of WS2_32.DLL by a process.
 	if (NO_ERROR != WSAStartup(MAKEWORD(2,2), &wsaData))
 	{
-        cout<<"Time Server: Error at WSAStartup()\n";
+        cout<<"HTTP Server: Error at WSAStartup()\n";
 		return;
 	}
 
@@ -118,7 +118,7 @@ void main()
     // Listen on the Socket for incoming connections.
 	// This socket accepts only one connection (no pending connections 
 	// from other clients). This sets the backlog parameter.
-    if (SOCKET_ERROR == listen(listenSocket, 5))
+    if (SOCKET_ERROR == listen(listenSocket, 25))
 	{
 		cout << "Time Server: Error at listen(): " << WSAGetLastError() << endl;
         closesocket(listenSocket);
@@ -136,6 +136,9 @@ void main()
 		// and still performing other operations (Use NULL for blocking). Finally,
 		// select returns the number of descriptors which are ready for use (use FD_ISSET
 		// macro to check which descriptor in each set is ready to be used).
+		
+		// Handle timeout here
+		
 		fd_set waitRecv;
 		FD_ZERO(&waitRecv);
 		for (int i = 0; i < MAX_SOCKETS; i++)
@@ -200,7 +203,7 @@ void main()
 	}
 
 	// Closing connections and Winsock.
-	cout << "Time Server: Closing Connection.\n";
+	cout << "HTTP Server: Closing Connection.\n";
 	closesocket(listenSocket);
 	WSACleanup();
 }
