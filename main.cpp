@@ -2,6 +2,7 @@
 
 void main() 
 {
+	time_t now;
 	struct SocketState sockets[MAX_SOCKETS] = { 0 };
 	int socketsCount = 0;
     // Initialize Winsock (Windows Sockets).
@@ -103,6 +104,15 @@ void main()
 		// macro to check which descriptor in each set is ready to be used).
 		
 		// Handle timeout here
+		for (int i = 1; i < socketsCount; i++)
+		{
+			now = time(0);
+			if ((now - sockets[i].lastCalled) > 120)
+			{
+				removeSocket(i, socketsCount, sockets);
+				cout <<endl<< "timeout for socket " << i << ", disconnected"<<endl;
+			}	
+		}
 		
 		fd_set waitRecv;
 		FD_ZERO(&waitRecv);

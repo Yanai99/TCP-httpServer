@@ -26,10 +26,10 @@ struct SocketState
 	int requestType;	// Sending sub-type
 	char buffer[BUFF_SIZE];
 	int dataLen;
-	time_t lastCalled;
+	time_t lastCalled= time(0);
 };
 
-const int HTTP_PORT = 27015;
+const int HTTP_PORT = 8080;
 const int MAX_SOCKETS = 60;
 const int EMPTY = 0;
 const int LISTEN = 1;
@@ -44,7 +44,13 @@ void removeSocket(int index, int socketsCount, SocketState* sockets);
 void acceptConnection(int index, int socketCount, SocketState* sockets);
 void receiveMessage(int index, int socketCount, SocketState* sockets);
 void sendMessage(int index, SocketState* sockets);
+int FindContLength(string request);
+void removeRequest(char* buffer, int& length, int contLen);
 
 void HandleGET(char *sendBuff,int index,SocketState* sockets);
 void HandleTRACE(char* sendBuff, int index, SocketState* sockets);
 void HandleDELETE(char* sendBuff, int index, SocketState* sockets);
+void HandlePOST(char* sendBuff, int index, SocketState* sockets);
+void HandlePUT(char* sendBuff, int index, SocketState* sockets);
+void HandleHEAD(char* sendBuff, int index, SocketState* sockets);
+void HandleOPTIONS(char* sendBuff, int index, SocketState* sockets);
